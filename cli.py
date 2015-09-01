@@ -35,6 +35,21 @@ class PMS(object):
                     cwd_dir_parent = result
                 # print "gussing %s" % cwd_dir_parent
 
+    @staticmethod
+    def get_tasks(parentdir):
+        tasks = []
+        try:
+            for line in open(os.path.join(parentdir, 'dev_tasks.txt'), 'rt'):
+                tasks.append(self.parse_task_line(line))
+            return tasks
+        except:
+            return tasks
+
+    @staticmethod
+    def parse_task_line(taskline):
+        return taskline
+
+
 
 class CLIPMS(PMS):
 
@@ -63,3 +78,12 @@ class CLIPMS(PMS):
 
     def command_get(self, arguments):
         print self.find_project()
+
+    def command_tasks(self, arguments):
+        parent_dir = self.find_project()
+        if parent_dir:
+            tasks = self.get_tasks(parent_dir)
+            for task in tasks:
+                print "Task %s" % task
+            
+
